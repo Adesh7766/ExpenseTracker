@@ -1,0 +1,11 @@
+F:\ExpenseTracker\ExpenseTrakcer\Helper\bin\Debug\net8.0\Helper.deps.json
+F:\ExpenseTracker\ExpenseTrakcer\Helper\bin\Debug\net8.0\Helper.dll
+F:\ExpenseTracker\ExpenseTrakcer\Helper\bin\Debug\net8.0\Helper.pdb
+F:\ExpenseTracker\ExpenseTrakcer\Helper\obj\Debug\net8.0\Helper.GeneratedMSBuildEditorConfig.editorconfig
+F:\ExpenseTracker\ExpenseTrakcer\Helper\obj\Debug\net8.0\Helper.AssemblyInfoInputs.cache
+F:\ExpenseTracker\ExpenseTrakcer\Helper\obj\Debug\net8.0\Helper.AssemblyInfo.cs
+F:\ExpenseTracker\ExpenseTrakcer\Helper\obj\Debug\net8.0\Helper.csproj.CoreCompileInputs.cache
+F:\ExpenseTracker\ExpenseTrakcer\Helper\obj\Debug\net8.0\Helper.dll
+F:\ExpenseTracker\ExpenseTrakcer\Helper\obj\Debug\net8.0\refint\Helper.dll
+F:\ExpenseTracker\ExpenseTrakcer\Helper\obj\Debug\net8.0\Helper.pdb
+F:\ExpenseTracker\ExpenseTrakcer\Helper\obj\Debug\net8.0\ref\Helper.dll

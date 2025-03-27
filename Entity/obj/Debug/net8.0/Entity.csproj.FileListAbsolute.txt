@@ -1,0 +1,11 @@
+F:\ExpenseTracker\ExpenseTrakcer\Entity\bin\Debug\net8.0\Entity.deps.json
+F:\ExpenseTracker\ExpenseTrakcer\Entity\bin\Debug\net8.0\Entity.dll
+F:\ExpenseTracker\ExpenseTrakcer\Entity\bin\Debug\net8.0\Entity.pdb
+F:\ExpenseTracker\ExpenseTrakcer\Entity\obj\Debug\net8.0\Entity.GeneratedMSBuildEditorConfig.editorconfig
+F:\ExpenseTracker\ExpenseTrakcer\Entity\obj\Debug\net8.0\Entity.AssemblyInfoInputs.cache
+F:\ExpenseTracker\ExpenseTrakcer\Entity\obj\Debug\net8.0\Entity.AssemblyInfo.cs
+F:\ExpenseTracker\ExpenseTrakcer\Entity\obj\Debug\net8.0\Entity.csproj.CoreCompileInputs.cache
+F:\ExpenseTracker\ExpenseTrakcer\Entity\obj\Debug\net8.0\Entity.dll
+F:\ExpenseTracker\ExpenseTrakcer\Entity\obj\Debug\net8.0\refint\Entity.dll
+F:\ExpenseTracker\ExpenseTrakcer\Entity\obj\Debug\net8.0\Entity.pdb
+F:\ExpenseTracker\ExpenseTrakcer\Entity\obj\Debug\net8.0\ref\Entity.dll

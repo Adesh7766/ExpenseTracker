@@ -1,0 +1,477 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="hidden" class="hdnId" />
+                    </div>
+                    <div class="col-md-3">
+                        <label>Name</label><br />
+                        <input type="text" class="form-control txtFilterName" />
+                    </div>
+                    <div class="col-md-3">
+                        <label>User Group</label><br />
+                        <input type="text" class="form-control txtFilterUserGroup" />
+                    </div>
+                    <div class="col-md-3">
+                        <br />
+                        <button type="button" class="btn btn-primary btnSearch me-1">
+                            <i class="fa fa-search"></i> Search
+                        </button>
+                        <button type="button" class="btn btn-success btnNew">
+                            <i class="fa fa-plus"></i> NEW
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped table-hover dtTable">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Name</th>
+                            <th>User Group</th>
+                            <th>Active Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="data-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal for adding new course info-->
+<div class="modal fade" id="mdlNewUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Users Setup</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Left Section -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="mb-3 row">
+                                    <label class="col-md-3 col-form-label fw-bold">Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control txtName" />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-3 col-form-label fw-bold">Username</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control txtUserName" />
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-3 col-form-label fw-bold">Password</label>
+                                    <div class="col-md-9">
+                                        <input type="password" class="form-control txtPassword" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Section -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="mb-3 row">
+                                    <label class="col-md-3 col-form-label fw-bold">User Group</label>
+                                    <div class="col-md-9">
+                                        <select class="form-select ddlUserGroup">
+                                            <option value="">Select User Group</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-3 col-form-label fw-bold">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control txtEmail" />
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-3 col-form-label fw-bold">Is Active</label>
+                                    <div class="col-md-9">
+                                        <input type="checkbox" class="chkIsActive">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <input type="hidden" class="hdnId" value="0" />
+                <button type="button" class="btn btn-secondary btnClose">Clear Form</button>
+                <button type="button" class="btn btn-primary btnSave">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            loadData();
+            loadTrainerInfo();
+            loadStudentData();
+        });
+
+        $(document).on('click', '.btnSearch', function () {
+            loadData();
+        })
+
+        $(document).on('click', '.btnNew', function () {
+            $('#mdlNewUser').modal('show');
+        });
+
+        $(document).on('click', '.btnClose', function () {
+            var ok = confirm('Are you sure to clear form?')
+            if (ok) {
+                clearForm();
+            }
+        })
+
+        $(document).on('click', '.btnSave', function () {
+
+            // var id = $('.hdnId').val();
+
+            var obj = {
+                FullName: $('.txtName').val() || '',
+                UserName: $('.txtUserName').val() || '',
+                Password: $('.txtPassword').val() || '',
+                UserGroup: $('.ddlUserGroup').val() || '',
+                Email: $('.txtEmail').val() || '',
+                IsActive: $('.chkIsActive').prop('checked') ? "true" : "false"
+            };
+
+
+            $.ajax({
+                method: 'post',
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("SaveUser", "Users")',
+                data: JSON.stringify(obj),
+                beforeSend: function () {
+                    $.blockUI();
+                },
+                complete: function () {
+                    $.unblockUI()
+                },
+                error: function (err) {
+                    console.log(err);
+                    alert('Error Occured!!')
+                },
+                success: function (rsp) {
+                    if (rsp.success) {
+                        toastr["success"](rsp.message, "OK");
+                        clearForm();
+                        loadData()
+                        $('#mdlSetup').modal('hide');
+                    } else {
+                        toastr["error"](rsp.errors, "ERROR");
+                    }
+                    loadData();
+                }
+            });
+        });
+
+        $(document).on('change', '.btnSearch', function () {
+            loadData();
+        })
+
+
+        $(document).on('click', '.btnDelete', function () {
+            var id = $(this).data('key');
+            var result = confirm('Are you sure to delete data?');
+            if (result == true) {
+                $.ajax({
+                    method: 'get',
+                    contentType: '',
+                    url: '@Url.Action("Delete", "CourseInfo")?id=' + id,
+                    beforeSend: function () { $.blockUI(); },
+                    complete: function () { $.unblockUI(); },
+                    error: function (err) { console.log(err); alert('Error Occured') },
+                    success: function (rsp) {
+                        if (rsp.success) {
+                            toastr["success"](rsp.message, "OK");
+                            loadData();
+                        } else {
+                            toastr["error"](rsp.message, "ERROR");
+                        }
+                    }
+                })
+            }
+        })
+
+        $(document).on('click', '.btnEdit', function () {
+            var id = $(this).data('key');
+            debugger;
+            $.ajax({
+                method: 'get',
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("GetById", "CourseInfo")?id=' + id,
+                success: function (res) {
+                    if (res.success == true) {
+
+
+                        $('.hdnId').val(res.data.courseInfoId),
+                            $('.txtUserName').val(res.data.courseName),
+                            $('.txtCourseCode').val(res.data.courseCode),
+                            $('.txtStartDate').val(res.data.startDate),
+                            $('.txtEndDate').val(res.data.endDate),
+                            $('.ddlTrainer').val(res.data.trainerId),
+                            $('.txtRoomNo').val(res.data.roomNo),
+                            $('.txtFee').val(res.data.fee)
+                        $('#mdlSetup').modal('show');
+
+                        $('.hdnId').val(res.data.courseInfoId),
+                            $('.txtUserName').val(res.data.courseName),
+                            $('.txtCourseCode').val(res.data.courseCode),
+                            $('.txtStartDate').val(res.data.startDate),
+                            $('.txtEndDate').val(res.data.endDate),
+                            $('.ddlTrainer').val(res.data.trainerId),
+                            $('.txtRoomNo').val(res.data.roomNo),
+                            $('.txtFee').val(res.data.fee)
+
+                    } else {
+                        toastr["error"](res.message, "ERROR")
+                    }
+                },
+                error: function (err) {
+                    debugger;
+                },
+                beforeSend: function () {
+                    $.blockUI();
+                },
+                complete: function () {
+                    $.unblockUI();
+                }
+            })
+
+        });
+
+        $(document).on('click', '.btnAddStudentsSave', function () {
+            var selectedStuents = [];
+            var mappedDate = $('.txtAddStudentDate').val();
+            var courseinfoID = $('.addStudentshdnId').val();
+
+            $(".tblAddStudents .student-checkbox:checked").each(function () {
+                var studentID = $(this).data("key");
+                selectedStuents.push(studentID);
+            })
+
+
+            var stdId = selectedStuents.join(',');
+
+            var obj = {
+                CourseInfoID: courseinfoID,
+                MapDate: mappedDate,
+                StudentInfoID: studentID,
+                StudentIds: stdId
+            };
+
+            $.ajax({
+                method: 'post',
+                contentType: "application/json; charset=utf-8",
+                url: "@Url.Action("CourseStudentMap", "CourseInfo")",
+                data: JSON.stringify(obj),
+                beforeSend: function () {
+                    $.blockUI();
+                },
+                success: function (response) {
+                    if (response.success) {
+                        toastr["success"](response.message, "OK")
+                    }
+                    else {
+                        toastr["error"](response.message, "ERROR")
+                    }
+                },
+                complete: function () {
+                    $.unblockUI();
+                }
+            })
+
+        })
+
+        $(document).on('click', '.btnAddStudentsClear', function () {
+            clearMapForm();
+        })
+
+        function clearMapForm() {
+            $('.txtAddStudentDate').val("");
+            $(".tblAddStudents .student-checkbox:checked").prop("ckecked", false);
+        }
+
+        function clearForm() {
+            CourseInfoId: $('.hdnId').val('')
+            CourseName: $('.txtUserName').val('')
+            CourseCode: $('.txtCourseCode').val('')
+            StartDate: $('.txtStartDate').val('')
+            EndDate: $('.txtEndDate').val('')
+            TrainerId: $('.ddlTrainer').val('0')
+            RoomNo: $('.txtRoomNo').val('')
+            Fee: $('.txtFee').val('')
+        }
+
+        function loadData() {
+
+            var Name = $('.txtFilterName').val();
+
+            $.ajax({
+                method: 'get',
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("GetAllUsers", "Users")?Name',
+                beforeSend: function () {
+                    $.blockUI;
+                },
+                success: function (res) {
+                    if (res.success) {
+                        var data = res.data;
+
+                        var xyz = '';
+                        $.each(data, function (i, x) {
+                            xyz += '<tr>';
+                            xyz += '<td>' + 1 + '</td>';
+                            xyz += '<td>' + x.fullName + '</td>';
+                            xyz += '<td>' + x.userGroup + '</td>';
+                            xyz += '<td>' + x.isActive + '</td>';
+                            xyz += '<td><button type="button" class="btn btn-sm btn-secondary btnEdit me-1" data-key=' + 1 + '><i class="fa fa-edit"></i> Edit</button><button type="button" class="btn btn-sm btn-danger btnDelete  me-1" data-key=' + 1 + '><i class="fa fa-trash"></i> Delete</button>';
+                            xyz += '</tr>';
+                        });
+                        $('.data-body').html(xyz);
+
+
+                        // $('.dtTable').DataTable();
+                    }
+                },
+                complete: function () {
+                    $.unblockUI();
+                }
+            })
+        }
+
+        function loadTrainerInfo() {
+            var obj = {
+                TrainerName: '',
+                Phone: ''
+            };
+
+            $.ajax({
+                method: 'post',
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("GetAllData", "TrainerInfo")',
+                data: JSON.stringify(obj),
+                success: function (res) {
+                    if (res.success) {
+                        debugger;
+                        var htmls = "";
+                        var data = res.data.data;
+
+                        htmls += "<option value=0>--Select--</option>";
+
+                        $.each(data, function (i, x) {
+                            htmls += "<option value=" + x.trainerInfoId + "> " + x.trainerName + " </option>";
+                        })
+
+                        $(".ddlTrainer").html(htmls);
+                    }
+                }
+            })
+        }
+
+
+
+        function loadStudentData() {
+
+            var obj = {
+                Fullname: '',
+                MobileNo: ''
+            }
+
+            $.ajax({
+                method: "post",
+                contentType: "application/json; charset=utf-8",
+                url: "@Url.Action("GetAllData", "StudentInfo")",
+                data: JSON.stringify(obj),
+                beforeSend: function () {
+                    $.blockUI();
+                },
+                success: function (res) {
+                    if (res.data) {
+                        var htmls = "";
+
+                        var data = res.data;
+
+                        $.each(data, function (i, x) {
+                            htmls += '<div><span class="me-4">' + x.fullname + '</span><input type="checkbox" class="student-checkbox" data-key = "' + x.studentInfoID + '"/></div>'
+                        })
+
+                        $(".tblAddStudents").html(htmls);
+                    }
+                },
+                complete: function () {
+                    $.unblockUI();
+                }
+            })
+        }
+    </script>
+
+
+    <script>
+        $(document).on('change', '.fileupload', function () {
+            var fl = $(this);
+
+
+            // if ($(fl)[0].files.length <= 0) {
+            //     return;
+            // }
+
+            var file = $(fl)[0].files[0]
+
+            var form_data = new FormData();
+            form_data.append('data', file);
+            form_data.append('data', JSON.stringify({ "DocTypeId": "1" }));
+
+            $.ajax({
+                url: '/FileUpload/UploadFile',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'POST',
+                success: function (response) {
+                    if (response.success) {
+                        debugger;
+
+                        var filepath = response.data.docGuid;
+                        $('.hdnUploadedFile').val(filepath);
+                        alert("success : " + response.message);
+                    } else {
+                        alert("error : " + response.message);
+                    }
+                },
+                error: function (error) {
+                    console.log('error occured with : ', error);
+                }
+            });
+        })
+    </script>
+}
