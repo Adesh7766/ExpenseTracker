@@ -30,7 +30,6 @@ namespace ExpenseTrakcer.Controllers
             });
         }
 
-        [HttpGet]
         public JsonResult GetAllUsers(string name)
         {
             List<UsersVM> data = _usersServices.GetAllData(name).Data;
