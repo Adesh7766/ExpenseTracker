@@ -40,5 +40,16 @@ namespace ExpenseTrakcer.Controllers
                 Success = true
             });
         }
+
+        public JsonResult Delete(int id)
+        {
+            _usersServices.Delete(id);
+
+            return Json(new
+            {
+                Success = true,
+                Message = "User Deleted Successfully."
+            });
+        }
     }
 }

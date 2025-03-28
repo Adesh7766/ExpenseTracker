@@ -13,7 +13,7 @@ namespace DAL.Interface
     {
         ResponseData Save(Users user);
 
-        //ResponseData Delete(int id);
+        ResponseData Delete(int id);
 
         //ResponseData Update(UsersVM user);
 

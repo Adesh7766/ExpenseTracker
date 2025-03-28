@@ -44,5 +44,20 @@ namespace DAL.Implementation
                 Message = "Users Fetched successfully."
             };
         }
+
+        public ResponseData Delete(int id)
+        {
+            Users dbData = _context.Users.Where(x => x.UserID == id).FirstOrDefault();
+
+            dbData.IsActive = false;
+
+            _context.SaveChanges();
+
+            return new ResponseData
+            {
+                Success = false,
+                Message = "User deleted successfully."
+            };
+        }
     }
 }

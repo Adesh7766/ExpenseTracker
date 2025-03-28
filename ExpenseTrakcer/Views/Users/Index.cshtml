@@ -200,12 +200,13 @@
 
         $(document).on('click', '.btnDelete', function () {
             var id = $(this).data('key');
+            debugger;
             var result = confirm('Are you sure to delete data?');
             if (result == true) {
                 $.ajax({
                     method: 'get',
                     contentType: '',
-                    url: '@Url.Action("Delete", "CourseInfo")?id=' + id,
+                    url: '@Url.Action("Delete", "Users")?id=' + id,
                     beforeSend: function () { $.blockUI(); },
                     complete: function () { $.unblockUI(); },
                     error: function (err) { console.log(err); alert('Error Occured') },
@@ -315,7 +316,7 @@
             clearMapForm();
         })
 
-        // function clearMapForm() {
+        //  function clearMapForm() {
         //     $('.txtAddStudentDate').val("");
         //     $(".tblAddStudents .student-checkbox:checked").prop("ckecked", false);
         // }
@@ -353,11 +354,10 @@
                             xyz += '<td>' + x.fullName + '</td>';
                             xyz += '<td>' + x.userGroup + '</td>';
                             xyz += '<td>' + x.isActive + '</td>';
-                            xyz += '<td><button type="button" class="btn btn-sm btn-secondary btnEdit me-1" data-key=' + 1 + '><i class="fa fa-edit"></i> Edit</button><button type="button" class="btn btn-sm btn-danger btnDelete  me-1" data-key=' + 1 + '><i class="fa fa-trash"></i> Delete</button>';
+                            xyz += '<td><button type="button" class="btn btn-sm btn-secondary btnEdit me-1" data-key=' + x.userID + '><i class="fa fa-edit"></i> Edit</button><button type="button" class="btn btn-sm btn-danger btnDelete  me-1" data-key=' + x.userID + '><i class="fa fa-trash"></i> Delete</button>';
                             xyz += '</tr>';
                         });
                         $('.data-body').html(xyz);
-
 
                         // $('.dtTable').DataTable();
                     }

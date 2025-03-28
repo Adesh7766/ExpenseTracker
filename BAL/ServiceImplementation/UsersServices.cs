@@ -53,6 +53,7 @@ namespace BAL.ServiceImplementation
             var data = _repo.GetAllUsers(name).Data
                         .Select(x => new UsersVM
                         {
+                            UserID = x.UserID,
                             FullName = x.FullName,
                             UserGroup = "Admin",
                             IsActive = x.IsActive.ToString()
@@ -66,6 +67,17 @@ namespace BAL.ServiceImplementation
             };
 
             
+        }
+
+        public ResponseData Delete(int id)
+        {
+            _repo.Delete(id);
+
+            return new ResponseData
+            {
+                Success = true,
+                Message = "User Deleted Successfully."
+            };
         }
     }
 }
